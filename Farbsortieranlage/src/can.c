@@ -29,6 +29,7 @@ void CAN_Init4Models()
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, enable);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, enable);
 
+
     GPIO_InitTypeDef gpio;
     GPIO_StructInit(&gpio);
     gpio.GPIO_Mode = GPIO_Mode_IN_FLOATING;
@@ -42,8 +43,8 @@ void CAN_Init4Models()
     // TODO
     // Maybe GPIO_Remap1_CAN1
     // GPIO_PinRemapConfig(GPIO_Remap_PD01, enable);
-    GPIO_PinRemapConfig(GPIO_Remap1_CAN1, enable);
-    GPIO_PinRemapConfig(GPIO_Remap2_CAN1, enable);
+    //GPIO_PinRemapConfig(GPIO_Remap1_CAN1, enable);
+     GPIO_PinRemapConfig(GPIO_Remap2_CAN1, enable);
 
     /*******************************************
 
@@ -64,6 +65,7 @@ void CAN_Init4Models()
     CAN1_InitStructure.CAN_Prescaler = 2;
     CAN1_InitStructure.CAN_BS1 = CAN_BS1_12tq;
     CAN1_InitStructure.CAN_BS2 = CAN_BS2_5tq;
+    CAN1_InitStructure.CAN_SJW = CAN_SJW_1tq;
 
     if (CAN_Init(CAN1, &CAN1_InitStructure))
     {
@@ -78,9 +80,9 @@ void CAN_Init4Models()
         **************************************/
         CAN_FilterInitTypeDef filter;
         filter.CAN_FilterIdHigh = 0x0;
-        filter.CAN_FilterIdLow = 0x0;
+        filter.CAN_FilterIdLow = 0x20012;
         filter.CAN_FilterMaskIdHigh = 0x0;
-        filter.CAN_FilterMaskIdLow = 0x0;
+        filter.CAN_FilterMaskIdLow = 0x20012;
 
         filter.CAN_FilterFIFOAssignment = 0;
         filter.CAN_FilterNumber = 0;
@@ -115,7 +117,7 @@ void CAN_Init4Models()
     // CAN_ITCONNVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
 
-    CAN_ITConfig(CAN1, CAN_IT_FF0, enable);
+    CAN_ITConfig(CAN1, CAN_IT_FMP0, enable);
 
 }
 /*******************************************************************
@@ -133,5 +135,7 @@ void CAN_Init4Models()
 // CAN cleared auto pending, PM 126,
 void CAN1_RX0_IRQHandler(void)
 {
+    CanTxMsg msg;
+    CAN_Receive(CAN1, CAN_FIFO0, &msg);
 
 }

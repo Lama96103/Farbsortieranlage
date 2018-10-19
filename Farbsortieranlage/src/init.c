@@ -1,7 +1,7 @@
 /****************************************************
 	Initialization of Ports, LCD, Timer and ...
 ****************************************************/
-#include "global.h"
+#include "global.h"CAN_Transmit
 //#include "ILI9341.h"
 
 void PortsInit(void)
@@ -41,7 +41,8 @@ void ProjectInit(void)
     msg.RTR = 0;
 
 
-    CAN_Transmit(CAN1, &msg);
+    uint8_t mailBox = CAN_Transmit(CAN1, &msg);
+    uint8_t status = CAN_TransmitStatus(CAN1, mailBox);
 }
 
 
