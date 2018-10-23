@@ -32,3 +32,40 @@ void EXTI15_10_IRQHandler()
         EXTI_ClearITPendingBit(EXTI_Line15);
     }
 }
+
+void USART1_IRQHandler(void)
+{
+
+    if(indexColor > 3){
+        colorflag = false;
+        indexColor = 0;
+    }
+
+    if((char)USART_ReceiveData(USART1) == '#')
+        {
+            //led_toggle();
+            color = 0;
+            colorflag = true;
+        }
+
+    if(!colorflag){
+        charInput[indexChar] = (char)USART_ReceiveData(USART1);
+        indexChar >= CHARLEN-1 ? indexChar = 0 : indexChar++;
+    }
+    if(colorflag){
+        charColor[indexColor] = (char)USART_ReceiveData(USART1);
+        color += ((char)USART_ReceiveData(USART1)<<(8*indexColor));
+        indexColor++;
+        if(indexColor>3){
+            color>>=8;
+        }
+
+    }
+
+    if((char)USART_ReceiveData(USART1) == '$')
+    {
+        //led_toggle();
+        renderflag = true;
+    }
+
+}

@@ -15,5 +15,6 @@ int main(void)
 
     while(true)
     {
+        // USART_SendData(USART1, '0');
     }
 }
