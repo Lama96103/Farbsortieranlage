@@ -80,9 +80,9 @@ void CAN_Init4Models()
         **************************************/
         CAN_FilterInitTypeDef filter;
         filter.CAN_FilterIdHigh = 0x0;
-        filter.CAN_FilterIdLow = 0x20012;
+        filter.CAN_FilterIdLow = 0x212;
         filter.CAN_FilterMaskIdHigh = 0x0;
-        filter.CAN_FilterMaskIdLow = 0x20012;
+        filter.CAN_FilterMaskIdLow = 0x212;
 
         filter.CAN_FilterFIFOAssignment = 0;
         filter.CAN_FilterNumber = 0;
@@ -119,23 +119,55 @@ void CAN_Init4Models()
 
     CAN_ITConfig(CAN1, CAN_IT_FMP0, enable);
 
+    // Init Message
+    uint8_t mailBox = Send_Data(0, 0x01, 0);
+    uint8_t status = CAN_TransmitStatus(CAN1, mailBox);
+
+
+
 }
+
+
+
 /*******************************************************************
 *																   *
 *		 Transmit CAN-Messages and CAN-Connect NMT  			   *
 *																   *
 ********************************************************************/
 
+// Send Data --> Returns MailBox
+int Send_Data(uint16_t canId, uint8_t dataLow, uint8_t dataHigh){
+    CanTxMsg msg;
 
+    msg.Data[0] = dataLow;
+    msg.Data[1] = dataHigh;
+    msg.DLC = 2;
+    msg.StdId = canId;
+    msg.ExtId = 0;
+    msg.IDE = CAN_Id_Standard;
+    msg.RTR = 0;
+
+
+    return CAN_Transmit(CAN1, &msg);
+}
 /*******************************************************************
 *																   *
 *		 Interrupt Handler for CAN-Receive						   *
 *																   *
 ********************************************************************/
 // CAN cleared auto pending, PM 126,
+
+bool first = true;
 void CAN1_RX0_IRQHandler(void)
 {
-    CanTxMsg msg;
+    CanRxMsg msg;
     CAN_Receive(CAN1, CAN_FIFO0, &msg);
+    if(msg.StdId == (0x180 + 0x12)){
+        ColorSortRecieveData(&msg);
+    }
 
+    if(first){
+        SIM_Init();
+        first = false;
+    }
 }

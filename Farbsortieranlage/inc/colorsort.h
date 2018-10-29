@@ -5,8 +5,8 @@
 **
 **********************************************************************/
 
-#ifndef SIMMODEL_H__
-#define SIMMODEL_H__
+#ifndef COLORSORT_H__
+#define COLORSORT_H__
 
 
 #define CAN_NMTID               0x00
@@ -36,8 +36,10 @@ bool flagRequestTransmitPL;
 
 // further SIM functions
 extern void SIM_Init();
-extern void SIM_Model_ReceiveMsg(CanRxMsg* RxMessage);
+
 extern void SIM_Model_TransmitNewData();
 
 
-#endif // !SIMMODEL_H__
+void ColorSortRecieveData(CanRxMsg *msg);
+
+#endif // !COLORSORT_H__

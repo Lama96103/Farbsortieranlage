@@ -25,8 +25,9 @@
 
 void CAN_Init4Models();
 
-uint8_t CAN_TransmitMsg(uint16_t canId, uint8_t *canData, uint8_t canDlc);
-
 uint8_t CAN_NMTConnect();
+
+int Send_Data(uint16_t canId, uint8_t dataLow, uint8_t dataHigh);
+void ColorSortTick();
 
 #endif // !CAN_H__

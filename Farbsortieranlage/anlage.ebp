@@ -88,12 +88,12 @@
 		<Unit filename="cmsis\core_cmInstr.h" />
 		<Unit filename="inc\can.h" />
 		<Unit filename="inc\cmsisAddon.h" />
+		<Unit filename="inc\colorsort.h" />
 		<Unit filename="inc\Font.h" />
 		<Unit filename="inc\global.h" />
 		<Unit filename="inc\ILI9341_BusCycles.h" />
 		<Unit filename="inc\ILI9341_CmdDriver.h" />
 		<Unit filename="inc\project.h" />
-		<Unit filename="inc\simModel.h" />
 		<Unit filename="inc\stm32f10x.h" />
 		<Unit filename="inc\stm32f10x_conf.h" />
 		<Unit filename="inc\system_stm32f10x.h" />
@@ -193,6 +193,9 @@
 		<Unit filename="src\can.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src\colorsort.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src\Font.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -211,9 +214,6 @@
 		<Unit filename="src\main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src\simModel.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="src\startup_stm32f10x_cl.S">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -225,7 +225,7 @@
 		<Extensions>
 			<code_completion />
 			<debugger>
-				<target_debugging_settings target="Release" active_interface="ST-link">
+				<target_debugging_settings target="Debug" active_interface="ST-link">
 					<debug_interface interface_id="ST-link" ip_address="localhost" ip_port="9889" path="${EMBITZ}\share\contrib" executable="STLinkGDB.exe" description="C:\Programming\EmBitz\en.stm32f1_svd\STM32F1_svd_V1.2\STM32F107.svd" dont_start_server="true" backoff_time="1000" options="0" reg_filter="0" active_family="STMicroelectronics" gdb_before_conn="" gdb_after_conn="">
 						<family_options family_id="STMicroelectronics">
 							<option opt_id="ID_JTAG_SWD" opt_value="swd" />
@@ -242,7 +242,7 @@
 						</family_options>
 					</debug_interface>
 				</target_debugging_settings>
-				<target_debugging_settings target="Debug" active_interface="ST-link">
+				<target_debugging_settings target="Release" active_interface="ST-link">
 					<debug_interface interface_id="ST-link" ip_address="localhost" ip_port="9889" path="${EMBITZ}\share\contrib" executable="STLinkGDB.exe" description="C:\Programming\EmBitz\en.stm32f1_svd\STM32F1_svd_V1.2\STM32F107.svd" dont_start_server="true" backoff_time="1000" options="0" reg_filter="0" active_family="STMicroelectronics" gdb_before_conn="" gdb_after_conn="">
 						<family_options family_id="STMicroelectronics">
 							<option opt_id="ID_JTAG_SWD" opt_value="swd" />

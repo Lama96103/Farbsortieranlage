@@ -33,9 +33,10 @@ void EXTI15_10_IRQHandler()
     }
 }
 
+
 void USART1_IRQHandler(void)
 {
-
+    /*
     if(indexColor > 3){
         colorflag = false;
         indexColor = 0;
@@ -67,5 +68,12 @@ void USART1_IRQHandler(void)
         //led_toggle();
         renderflag = true;
     }
+    */
+}
 
+void TIM6_IRQHandler (){
+
+    TIM_ClearITPendingBit(TIM6, TIM_IT_Update);
+
+    ColorSortTick();
 }

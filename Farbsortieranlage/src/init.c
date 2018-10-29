@@ -18,7 +18,25 @@ void PortsInit(void)
 
 void TimerInit(void)
 {
+    // Initialize Clock for Timer 6 and Timer 7
+    RCC_APB1PeriphClockCmd(RCC_APB1ENR_TIM6EN | RCC_APB1ENR_TIM7EN, ENABLE);
 
+    // Initialize Timer 6       - Reset Timer
+    TIM_TimeBaseInitTypeDef tim6BaseInit;
+    TIM_TimeBaseStructInit(&tim6BaseInit);
+    tim6BaseInit.TIM_Prescaler = 500 - 1;
+    tim6BaseInit.TIM_Period = 1440 - 1;
+    TIM_TimeBaseInit(TIM6, &tim6BaseInit);
+    TIM_ClearITPendingBit(TIM6, TIM_IT_Update);
+    TIM_Cmd(TIM6, enable);
+
+    TIM_ITConfig(TIM6, TIM_IT_Update, ENABLE);
+
+    NVIC_InitTypeDef NVIC_InitStruct;
+    NVIC_InitStruct.NVIC_IRQChannel = TIM6_IRQn;
+    NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 15;
+    NVIC_Init(&NVIC_InitStruct);
 }
 
 void IntInit()
@@ -73,21 +91,9 @@ void UART_Init(void)
 void ProjectInit(void)
 {
     // UART_Init();
+    TimerInit();
     CAN_Init4Models();
 
-    CanTxMsg msg;
-
-    msg.Data[0] = 0x01;
-    msg.Data[1] = 0x00;
-    msg.DLC = 2;
-    msg.StdId = 0;
-    msg.ExtId = 0;
-    msg.IDE = CAN_Id_Standard;
-    msg.RTR = 0;
-
-
-    uint8_t mailBox = CAN_Transmit(CAN1, &msg);
-    uint8_t status = CAN_TransmitStatus(CAN1, mailBox);
 }
 
 
