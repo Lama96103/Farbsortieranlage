@@ -12,6 +12,7 @@ was anderes wenn es einen Fehler gab.
 Diese Funktion wird augerufen sobald Daten von eurer Klemme gesendet wurden
 
 #### void xxx_Tick(unsigned int tick);
+Wir rufen diese Funktionen alle 50-1000 Ms bei euch auf. Der Parameter *tick* ist ein globaler Loopcounter, den wir euch übergeben. 
 
 ## Funktionen, die ihr von uns verwenden könnt
 
