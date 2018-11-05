@@ -1,7 +1,7 @@
 /****************************************************
 	Initialization of Ports, LCD, Timer and ...
 ****************************************************/
-#include "global.h"CAN_Transmit
+#include "global.h"
 //#include "ILI9341.h"
 
 void PortsInit(void)
@@ -92,7 +92,12 @@ void ProjectInit(void)
 {
     // UART_Init();
     TimerInit();
-    CAN_Init4Models();
+    int success = CAN_Init4Models();
+
+    // Error when CanInit wasn't successfull
+    if(success != 0){
+        while(true);
+    }
 
 }
 

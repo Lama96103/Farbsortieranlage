@@ -78,8 +78,7 @@ void  TFT_Write8bitToPort(uint8_t P0_7)
 }
 uint8_t  TFT_Read8bitFromPort()
 {
-
-	if (!TFT_IsOutput())
+    if (!TFT_IsOutput())
 	{
 		return (uint8_t) GPIOE->IDR;
 	}

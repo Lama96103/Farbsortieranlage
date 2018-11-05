@@ -19,7 +19,7 @@
 #define Model_DLC               1
 
 //-------- CAN-Defines --------------
-
+#define COLOR_ID                0x212
 // Data Output from Process Line
 
 
@@ -41,5 +41,7 @@ extern void SIM_Model_TransmitNewData();
 
 
 void ColorSortRecieveData(CanRxMsg *msg);
+
+void ColorSortTick();
 
 #endif // !COLORSORT_H__

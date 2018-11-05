@@ -13,7 +13,7 @@
 *		 Initialization of Simulation Model						   *
 *																   *
 ********************************************************************/
-void CAN_Init4Models()
+int CAN_Init4Models()
 {
     /*******************************************
 
@@ -122,9 +122,11 @@ void CAN_Init4Models()
     // Init Message
     uint8_t mailBox = Send_Data(0, 0x01, 0);
     uint8_t status = CAN_TransmitStatus(CAN1, mailBox);
+    if(status == CAN_TxStatus_Failed){
+        return -1;
+    }
 
-
-
+    return 0;
 }
 
 
