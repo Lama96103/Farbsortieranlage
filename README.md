@@ -22,4 +22,4 @@ Wenn ihr selbst Daten senden wollt. Ihr bekommt die ID der Mailbox wenn dies Erf
 
 
 ## Verwendete Timer
-* Timer 6 / Organisation
+* Timer 6 / Organisation -> Tick
