@@ -12,7 +12,7 @@
 #pragma once
 
 //-------- CAN-Defines --------------
-#define COLORSORT_ID                0x212
+#define COLORSORT_ID                0x12
 
 // Init Function
 int ColorSort_Init();

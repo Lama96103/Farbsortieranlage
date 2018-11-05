@@ -144,7 +144,7 @@ int Send_Data(uint16_t canId, uint8_t dataLow, uint8_t dataHigh){
     msg.Data[0] = dataLow;
     msg.Data[1] = dataHigh;
     msg.DLC = 2;
-    msg.StdId = canId;
+    msg.StdId = 0x200 + canId;
     msg.ExtId = 0;
     msg.IDE = CAN_Id_Standard;
     msg.RTR = 0;
@@ -164,12 +164,27 @@ void CAN1_RX0_IRQHandler(void)
 {
     CanRxMsg msg;
     CAN_Receive(CAN1, CAN_FIFO0, &msg);
-    if(msg.StdId == (0x192)){
+    if(msg.StdId == (0x180 + 0x11)){
+        Loading_RecieveData(&msg);
+    }else if(msg.StdId == (0x180 + 0x12)){
         ColorSort_RecieveData(&msg);
+    }
+    else if(msg.StdId == (0x180 + 0x13)){
+        Unloading_RecieveData(&msg);
+    }
+    else if(msg.StdId == (0x180 + 0x14)){
+        ServoMotor_RecieveData(&msg);
+    }
+    else if(msg.StdId == (0x180 + 0x15)){
+        StepMotor_RecieveData(&msg);
     }
 
     if(didInit){
         ColorSort_Init();
+        Loading_Init();
+        Unloading_Init();
+        StepMotor_Init();
+        ServoMotor_Init();
         didInit = false;
     }
 }

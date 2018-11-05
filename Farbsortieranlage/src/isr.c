@@ -76,4 +76,8 @@ void TIM6_IRQHandler (){
     TIM_ClearITPendingBit(TIM6, TIM_IT_Update);
     tick++;
     ColorSort_Tick(tick);
+    Loading_Tick(tick);
+    Unloading_Tick(tick);
+    StepMotor_Tick(tick);
+    ServoMotor_Tick(tick);
 }

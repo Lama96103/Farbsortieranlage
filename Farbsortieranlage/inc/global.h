@@ -22,6 +22,11 @@
 #include "Font.h"
 #include "cmsisAddon.h"
 #include "can.h"
+
 #include "colorsort.h"
+#include "stepmotor.h"
+#include "servomotor.h"
+#include "unloading.h"
+#include "loading.h"
 
 #endif
