@@ -1,7 +1,7 @@
 # Farbsortieranlage
 
 ## Funktionen, die ihr schreiben müsst damit wir sie aufrufen können
-
+Teilt uns den Namen eurer Funktionen mit, wenn ihr soweit seid
 #### int xxx_Init();
 Hier könnt ihr am Anfang die Anlage in einen Grundstatus bringen. 
 z.B. Lichter auschalten usw.
