@@ -4,44 +4,23 @@
 **					and CANOpen
 **
 **********************************************************************/
-
+/*
 #ifndef COLORSORT_H__
 #define COLORSORT_H__
+*/
 
-
-#define CAN_NMTID               0x00
-#define SIM_Model_ActorDO     	0x201
-#define SIM_Model_SensorDI    	0x181
-
-#define TFTReframeOn            1
-#define TFTReframeOff           0
-
-#define Model_DLC               1
+#pragma once
 
 //-------- CAN-Defines --------------
-#define COLOR_ID                0x212
-// Data Output from Process Line
+#define COLORSORT_ID                0x212
 
+// Init Function
+int ColorSort_Init();
 
-//********************************
-// Declaration of Global Variables
-bool flagOnholdTransmit;
-bool flagRequestTransmitNMT;
-bool flagRequestTransmitPL;
+// On Recieve Data
+void ColorSort_RecieveData(CanRxMsg *msg);
 
-// Declaration of Global Functions
-// Data Input Functions from Process Line
+// On Tick
+void ColorSort_Tick(unsigned int tick);
 
-// Data Output Functions from Process Line
-
-// further SIM functions
-extern void SIM_Init();
-
-extern void SIM_Model_TransmitNewData();
-
-
-void ColorSortRecieveData(CanRxMsg *msg);
-
-void ColorSortTick();
-
-#endif // !COLORSORT_H__
+//#endif // !COLORSORT_H__

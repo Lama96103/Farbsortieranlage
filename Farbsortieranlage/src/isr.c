@@ -3,6 +3,7 @@
 ****************************************************/
 #include "global.h"
 
+unsigned int tick = 0;
 
 void EXTI15_10_IRQHandler()
 {
@@ -72,8 +73,7 @@ void USART1_IRQHandler(void)
 }
 
 void TIM6_IRQHandler (){
-
     TIM_ClearITPendingBit(TIM6, TIM_IT_Update);
-
-    ColorSortTick();
+    tick++;
+    ColorSort_Tick(tick);
 }

@@ -35,7 +35,8 @@ void TimerInit(void)
     NVIC_InitTypeDef NVIC_InitStruct;
     NVIC_InitStruct.NVIC_IRQChannel = TIM6_IRQn;
     NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
-    NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 15;
+    NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 3;
+    NVIC_InitStruct.NVIC_IRQChannelSubPriority = 0;
     NVIC_Init(&NVIC_InitStruct);
 }
 
@@ -78,7 +79,7 @@ void UART_Init(void)
     NVIC_InitTypeDef USART1_IRQ_init;
 
     USART1_IRQ_init.NVIC_IRQChannel = USART1_IRQn;
-    USART1_IRQ_init.NVIC_IRQChannelPreemptionPriority = 1;
+    USART1_IRQ_init.NVIC_IRQChannelPreemptionPriority = 4;
     USART1_IRQ_init.NVIC_IRQChannelSubPriority = 0;
     USART1_IRQ_init.NVIC_IRQChannelCmd = ENABLE;
 

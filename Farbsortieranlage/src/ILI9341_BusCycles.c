@@ -82,6 +82,7 @@ uint8_t  TFT_Read8bitFromPort()
 	{
 		return (uint8_t) GPIOE->IDR;
 	}
+	return 0;
 }
 void  TFT_StartCycle()
 {

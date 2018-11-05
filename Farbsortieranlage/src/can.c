@@ -80,9 +80,9 @@ int CAN_Init4Models()
         **************************************/
         CAN_FilterInitTypeDef filter;
         filter.CAN_FilterIdHigh = 0x0;
-        filter.CAN_FilterIdLow = 0x212;
+        filter.CAN_FilterIdLow = 0x192;
         filter.CAN_FilterMaskIdHigh = 0x0;
-        filter.CAN_FilterMaskIdLow = 0x212;
+        filter.CAN_FilterMaskIdLow = 0x192;
 
         filter.CAN_FilterFIFOAssignment = 0;
         filter.CAN_FilterNumber = 0;
@@ -104,14 +104,14 @@ int CAN_Init4Models()
         Initialization of NVIC to enable Receive Interrupt
 
     ***********************************************************/
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_3);
 
     // Timer Interrupts
     NVIC_InitTypeDef exti;
     exti.NVIC_IRQChannel = CAN1_RX0_IRQn;
     exti.NVIC_IRQChannelCmd = ENABLE;
     exti.NVIC_IRQChannelSubPriority = 0;
-    exti.NVIC_IRQChannelPreemptionPriority = 15;
+    exti.NVIC_IRQChannelPreemptionPriority = 2;
     NVIC_Init(&exti);
 
     // CAN_ITCONNVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
@@ -159,17 +159,17 @@ int Send_Data(uint16_t canId, uint8_t dataLow, uint8_t dataHigh){
 ********************************************************************/
 // CAN cleared auto pending, PM 126,
 
-bool first = true;
+bool didInit = true;
 void CAN1_RX0_IRQHandler(void)
 {
     CanRxMsg msg;
     CAN_Receive(CAN1, CAN_FIFO0, &msg);
-    if(msg.StdId == (0x180 + 0x12)){
-        ColorSortRecieveData(&msg);
+    if(msg.StdId == (0x192)){
+        ColorSort_RecieveData(&msg);
     }
 
-    if(first){
-        SIM_Init();
-        first = false;
+    if(didInit){
+        ColorSort_Init();
+        didInit = false;
     }
 }

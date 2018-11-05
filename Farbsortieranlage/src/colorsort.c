@@ -19,7 +19,6 @@ bool light_isOn = false;
 uint8_t actor = 0;
 uint8_t sensor;
 
-unsigned int tick = 0;
 unsigned int sortOpenTick = 0;
 
 enum Color { none, orangeBall, blueBall, greenBall} color;
@@ -38,18 +37,18 @@ void GetColor(uint8_t sens){
         color = orangeBall;
     }else if(sens & 0x02){
         color = blueBall;
-    }else if(sens & 0x03){
+    }else if(sens & 0x04){
         color = greenBall;
     }
 }
 
 void CheckSensor(uint8_t sens){
 
-    if((sensor == 0x40) && color == orangeBall){
+    if((sensor & 0x08) && color == orangeBall){
         OpenSort();
-    }else if((sensor == & 0x50) && color == blueBall){
+    }else if((sensor & 0x10) && color == blueBall){
         OpenSort();
-    }else if((sensor == 0x60) && color == greenBall){
+    }else if((sensor & 0x20) && color == greenBall){
         OpenSort();
     }
 }
@@ -65,7 +64,7 @@ void OpenSort(){
         data = data & (~0x70);
         data = data | (0x60);
         data = data & (~0x50);
-        Send_Data(COLOR_ID, data, 0);
+        Send_Data(COLORSORT_ID, data, 0);
         resetFlag = true;
         waited = false;
         actor = data;
@@ -78,7 +77,7 @@ void CloseSort(){
         data = data | (0x70);
         data = data & (~0x60);
         data = data | (0x50);
-        Send_Data(COLOR_ID, data, 0);
+        Send_Data(COLORSORT_ID, data, 0);
         resetFlag = true;
         waited = false;
         actor = data;
@@ -88,14 +87,14 @@ void CloseSort(){
 
 void TurnLampOn(){
     uint8_t data = actor | 0x08;
-    Send_Data(COLOR_ID, data, 0);
+    Send_Data(COLORSORT_ID, data, 0);
     actor = data;
     light_isOn = true;
 }
 
 void TurnLampOff(){
     uint8_t data = actor & (~0x08);
-    Send_Data(COLOR_ID, data, 0);
+    Send_Data(COLORSORT_ID, data, 0);
     actor = data;
     light_isOn = false;
 }
@@ -121,7 +120,7 @@ void SIM_Model_Manual()
 
 
 
-void ColorSortRecieveData(CanRxMsg *msg){
+void ColorSort_RecieveData(CanRxMsg *msg){
     sensor = msg->Data[0];
 
     GetColor(sensor);
@@ -130,23 +129,28 @@ void ColorSortRecieveData(CanRxMsg *msg){
 
 
 
-void ColorSortTick(){
+void ColorSort_Tick(unsigned int tick){
 
     if(tick%100==0){
         if(resetFlag && waited){
             uint8_t data = actor & 0x0f;
-            Send_Data(COLOR_ID, data, 0);
+            Send_Data(COLORSORT_ID, data, 0);
         }
         waited = true;
 
+        if(light_isOn){
+            TurnLampOff();
+        }else{
+            TurnLampOn();
+        }
+
         if(sort_isOpen){
             sortOpenTick++;
-            if(sortOpenTick > 10){
+            if(sortOpenTick > 1){
                 CloseSort();
             }
         }
     }
-    tick++;
 }
 
 /*********************************************
@@ -154,9 +158,11 @@ void ColorSortTick(){
     Initialization of Simulation Model
 
 *********************************************/
-void SIM_Init()
+int ColorSort_Init()
 {
     CloseSort();
     TurnLampOn();
     color = none;
+
+    return 0;
 }
